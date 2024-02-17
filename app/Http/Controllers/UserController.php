@@ -11,13 +11,13 @@ class UserController extends Controller
 {
     public function listUsers()
     {
-
-        $users = User::all();
-        return view('index', ['users' => $users]);
+        $users = User::withCount('posts')->paginate(3);
+        // dd($users );
+        return view('users.index', ['users' => $users]);
     }
     public function create()
     {
-        return view('create');
+        return view('users.create');
     }
     public function store(Request $req)
     {
@@ -35,7 +35,7 @@ class UserController extends Controller
     public function edit($userId)
     {
         $user = User::findOrFail($userId);
-        return view('edit', ['user' => $user]);
+        return view('users.edit', ['user' => $user]);
     }
     public function update($userId,Request $req)  {
         // $req->validate([
@@ -53,8 +53,10 @@ class UserController extends Controller
     public function show($userId)
     {
 
-        $user = User::findOrFail($userId);
-        return view('show', ['user' => $user]);
+        $user = User::with('posts')->findOrFail($userId);
+        $posts=$user->posts()->paginate(3);
+        return view('users.show', ['user' => $user,'posts'=>$posts]);
+
     }
     public function delete($userId)  {
 

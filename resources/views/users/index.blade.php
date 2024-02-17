@@ -13,6 +13,7 @@ list
         <th scope="col">#</th>
         <th scope="col">Name</th>
         <th scope="col">Email</th>
+        <th scope="col">#posts</th>
         <th scope="col">Action</th>
 
       </tr>
@@ -23,6 +24,9 @@ list
         <th scope="row">{{$user->id}}</th>
         <td><a href="/user/show/{{$user->id}}">{{$user->name}}</a></td>
         <td>{{$user->email}}</td>
+        <td>
+            {{$user->posts_count}}
+        </td>
         <td class="d-flex"><a href="/user/edit/{{$user->id}}" class="btn btn-primary m-1">Edit</a>
             <form action="{{url("/user/delete/$user->id")}}" method="post">
 @csrf
@@ -33,6 +37,7 @@ list
       @endforeach
     </tbody>
   </table>
+<div class="d-flex justify-content-center">  {{$users->links()}}</div>
 @endsection
 
 
