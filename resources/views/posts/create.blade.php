@@ -7,7 +7,7 @@ create
 
 @endsection
 @section('content')
-    <form action={{url('/posts')}} method="POST" class="container">
+    <form action={{url('/posts')}} method="POST" class="container" enctype="multipart/form-data">
 @csrf
       <div class="mb-3">
             <label for="InputTitle" class="form-label">title</label>
@@ -17,7 +17,10 @@ create
           <label for="InputBody" class="form-label">body</label>
           <textarea type="text" name="body" class="form-control" id="InputBody">
           </textarea>
-        </div>
+        </div  class="mb-3">
+        <div>  <label for="InputFile" class="form-label">title</label>
+            <input type="file" name="img" class="form-control"  id="InputTitle">
+         </div>
         <select class="form-select" name ="user_id" aria-label="Default select example">
             <option selected>user name</option>
             @foreach ($users as $user)
@@ -26,10 +29,10 @@ create
           </select>
         <button type="submit" name="submit" class="btn btn-primary">Submit</button>
 
-      {{-- @if ($errors->any() )
+      @if ($errors->any() )
       @foreach($errors->all() as $error)
       <p class="text-danger text-center ">{{$error}}</p>
       @endforeach
-          @endif --}}
+          @endif
           </form>
 @endsection

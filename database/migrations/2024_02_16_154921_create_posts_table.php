@@ -21,6 +21,7 @@ return new class extends Migration
             $table->boolean('enabled')->default(true);
             $table->timestamp('published_at')->nullable();
             $table->unsignedBigInteger('user_id');
+            $table->string('img')->nullable();
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

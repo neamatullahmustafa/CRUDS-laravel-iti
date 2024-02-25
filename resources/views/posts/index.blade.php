@@ -10,6 +10,9 @@ list posts
 <div class="container row row-col-3 mx-auto my-4 justify-content-around ">
 @foreach ($posts as $post)
 <div class="card" style="width: 18rem;">
+    <div class="card-img">
+        <img src="{{ asset('storage/' . $media->first()->media) }}" class="w-25 " alt="">            <p class="card-title fs-2" >caption : {{$post->caption}}</p>
+    </div>
     <div class="card-body">
         <a class="card-title fs-2" href="{{route('posts.show',$post->id)}}">title : {{$post->title}}</a>
       <h6 class="card-subtitle mb-2 text-body-secondary fs-4">body : {{$post->body}}</h6>

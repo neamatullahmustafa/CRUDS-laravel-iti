@@ -27,8 +27,25 @@
                 <li><a class="dropdown-item" href="/posts/create">New Post</a>
               </li></ul>
           </li>
+          @guest
+
+
+          <li class="nav-item">
+            <a class="nav-link" href='/login'>login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href='/register'>register</a>
+          </li>
+          @endguest
+          @auth
+
+          <li class="nav-item ">
+            <form action="{{url('logout')}}" method="post">
+                @csrf <input type="submit" class="nav-link bg-light border-0" value='logout'></form>
+
+          </li>
+          @endauth
         </ul>
-      </div>
     </div>
   </nav>
 

@@ -27,10 +27,10 @@ edit
           </select>
         <button type="submit" name="submit" class="btn btn-primary">Submit</button>
 
-      {{-- @if ($errors->any() )
+      @if ($errors->any() )
       @foreach($errors->all() as $error)
       <p class="text-danger text-center ">{{$error}}</p>
       @endforeach
-          @endif --}}
+          @endif
      </form>
 @endsection

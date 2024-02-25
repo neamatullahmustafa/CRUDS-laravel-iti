@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Auth\Events\Validated;
@@ -28,6 +27,8 @@ class UserController extends Controller
         User::create([
             "name" => $req->name,
             "email" => $req->email,
+            "password" => "kkkkkk",
+
         ]);
 
         return redirect(url('/'));

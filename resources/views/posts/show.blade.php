@@ -11,6 +11,9 @@ show
         <h5 class="card-title">title : {{$post->title}}</h5>
 
     </div>
+    <div class="card-img">
+        <img src="{{ asset('storage/' . $media->first()->media) }}" class="w-25 " alt="">            <p class="card-title fs-2" >caption : {{$post->caption}}</p>
+    </div>
     <div class="card-body">
         <a href="#" class="card-link mx-1">user id : {{$post->user_id}}</a>
       <p class="card-text">body : {{$post->body}}</p>

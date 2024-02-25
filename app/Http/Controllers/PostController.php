@@ -1,11 +1,16 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Events\posts_count;
 use App\Models\User;
 
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\Post;
+use Illuminate\Support\Facades\Storage;
+
+
 class PostController extends Controller
 {
     public function create()
@@ -15,18 +20,24 @@ class PostController extends Controller
     }
     public function store(Request $req)
     {
-        // $req->validate([
-        //     "title" => 'required|max:255',
-        //     "body" =>  'required|max:255',
-        // ]);
-        Post::create([
+        $req->validate([
+            "title" => 'required|max:255',
+            "body" =>  'required|max:255',
+        ]);
+        $image=  $req->file('media');
+        $path = $image->store('post_media', 'public');
+    //   $file =  Storage::putFile("posts",$req['img']);
+    //   dd($file);
+     $postCount=   Post::create([
             "user_id"=>$req->user_id,
             "title" => $req->title,
             "slug"=>Str::slug( $req->title),
             "body" => $req->body,
+            "img"=>$path,
         ]);
+        event(new \App\Events\posts_count($postCount));
 
-        return redirect(url('/posts'));
+        return redirect(url('public/posts'));
     }
     public function edit($postId )
     {
@@ -37,16 +48,19 @@ class PostController extends Controller
     }
     public function update($postId, Request $req)
     {
-        // dd($postId);
-        // $req->validate([
-        //     "title" => 'required|max:255',
-        //     "body" =>  'required|max:255',
-        // ]);
+        dd($postId);
+        $req->validate([
+            "title" => 'required|max:255',
+            "body" =>  'required|max:255',
+        ]);
+        $image=  $req->file('media');
+        $path = $image->store('post_media', 'public');
         Post::findOrFail($postId)->update([
             "user_id"=>$req->user_id,
             "title" => $req->title,
             "slug"=>Str::slug( $req->title),
             "body" => $req->body,
+            "img"=>$path,
         ]);
 
         return redirect(url('/posts'));
