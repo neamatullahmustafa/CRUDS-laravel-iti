@@ -1,7 +1,10 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,17 +18,55 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('/register');
 });
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+// Route::Middleware('guest')->group(function () {
+Route::get('/login', [AuthController::class, 'loginForm']);
+Route::post('/login', [AuthController::class, 'login']);
+Route::get('/register', [AuthController::class, 'registerForm']);
+Route::post('/register', [AuthController::class, 'register']);
+Route::get('/home', function () {
+    return view('welcome');
+});
+Route::get(
+    '/',
+    [UserController::class, 'listUsers']
+);
+// });
+// Route::Middleware('auth')->group(function () {
 
-require __DIR__.'/auth.php';
+Route::get(
+    '/user/create',
+    [UserController::class, 'create']
+)->middleware("auth");
+Route::get(
+    '/user/store',
+    [UserController::class, 'store']
+)->middleware("auth");
+Route::get(
+    '/user/show/{user}',
+    [UserController::class, 'show']
+)->middleware("auth");
+Route::get(
+    '/user/update/{user}',
+    [UserController::class, 'update']
+)->middleware("auth");
+Route::get(
+    '/user/edit/{user}',
+    [UserController::class, 'edit']
+)->middleware("auth");
+Route::delete(
+    '/user/delete/{user}',
+    [UserController::class, 'delete']
+)->middleware("auth");
+Route::post('/logOut', [AuthController::class, 'logOut']);
+Route::resource('posts', PostController::class)->middleware("auth"); //auto route
+
+// });
+require __DIR__ . '/auth.php';

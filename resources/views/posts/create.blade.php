@@ -19,7 +19,7 @@ create
           </textarea>
         </div  class="mb-3">
         <div>  <label for="InputFile" class="form-label">title</label>
-            <input type="file" name="img" class="form-control"  id="InputTitle">
+            <input type="file" name="img" class="form-control"  id="InputTitle" >
          </div>
         <select class="form-select" name ="user_id" aria-label="Default select example">
             <option selected>user name</option>

@@ -11,7 +11,7 @@ list posts
 @foreach ($posts as $post)
 <div class="card" style="width: 18rem;">
     <div class="card-img">
-        <img src="{{ asset('storage/' . $media->first()->media) }}" class="w-25 " alt="">            <p class="card-title fs-2" >caption : {{$post->caption}}</p>
+        <img src="{{ asset('storage/' . $post->img) }}" class="w-100 " alt="">            <p class="card-title fs-2" >caption : {{$post->caption}}</p>
     </div>
     <div class="card-body">
         <a class="card-title fs-2" href="{{route('posts.show',$post->id)}}">title : {{$post->title}}</a>

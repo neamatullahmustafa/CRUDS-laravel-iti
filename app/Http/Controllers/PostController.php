@@ -16,35 +16,41 @@ class PostController extends Controller
     public function create()
     {
         $users = User::all();
-        return view('posts.create',['users' => $users]);
+        return view('posts.create', ['users' => $users]);
     }
     public function store(Request $req)
     {
         $req->validate([
             "title" => 'required|max:255',
+            'img' => 'required',
+            'img.*' => 'file|mimes:jpeg,jpg,png,gif,mp4|max:90480',
             "body" =>  'required|max:255',
         ]);
-        $image=  $req->file('media');
-        $path = $image->store('post_media', 'public');
-    //   $file =  Storage::putFile("posts",$req['img']);
-    //   dd($file);
-     $postCount=   Post::create([
-            "user_id"=>$req->user_id,
+
+        if ($req->file('img')) {
+            $path =       $req->file('img')->store('post_img', 'public');
+        };
+        //  dd($path);
+        //   $file =  Storage::putFile("posts",$req['img']);
+
+        $postCount =   Post::create([
+            "user_id" => $req->user_id,
             "title" => $req->title,
-            "slug"=>Str::slug( $req->title),
+            "slug" => Str::slug($req->title),
             "body" => $req->body,
-            "img"=>$path,
+            "img" => $path,
         ]);
+        // dd($postCount);
         event(new \App\Events\posts_count($postCount));
 
         return redirect(url('public/posts'));
     }
-    public function edit($postId )
+    public function edit($postId)
     {
         $users = User::all();
         $post = Post::with('user')->findOrFail($postId);
         // dd($post);
-        return view('posts.edit', ['post' => $post,'users'=>$users] );
+        return view('posts.edit', ['post' => $post, 'users' => $users]);
     }
     public function update($postId, Request $req)
     {
@@ -53,14 +59,14 @@ class PostController extends Controller
             "title" => 'required|max:255',
             "body" =>  'required|max:255',
         ]);
-        $image=  $req->file('media');
+        $image =  $req->file('img');
         $path = $image->store('post_media', 'public');
         Post::findOrFail($postId)->update([
-            "user_id"=>$req->user_id,
+            "user_id" => $req->user_id,
             "title" => $req->title,
-            "slug"=>Str::slug( $req->title),
+            "slug" => Str::slug($req->title),
             "body" => $req->body,
-            "img"=>$path,
+            "img" => $path,
         ]);
 
         return redirect(url('/posts'));
